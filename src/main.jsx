@@ -1,9 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import AppRoutes from './routes/AppRoutes'
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import AppRoutes from "./routes/AppRoutes";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import { ShopProvider } from "./context/ShopContext.jsx";
 
-createRoot(document.getElementById('root')).render(
-    <AppRoutes />
-)
+createRoot(document.getElementById("root")).render(
+  <AuthProvider>
+    <ShopProvider>
+      <AppRoutes />
+    </ShopProvider>
+  </AuthProvider>,
+);

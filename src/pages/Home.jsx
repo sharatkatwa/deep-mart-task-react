@@ -1,7 +1,10 @@
 import { ArrowRight, Package, ShoppingBag, Star, Tag, TrendingUp, Zap } from "lucide-react";
 import { NavLink } from "react-router";
 import CategoryCards from "../components/CategoryCards";
+import { UseAuth } from "../context/AuthContext";
 const Home = () => {
+  const { LoggedInUser } = UseAuth();
+
   return (
     <div className="container h-full max-w-7xl mx-auto lg:px-8 sm:px-6 py-10 antialiased">
       <div className="relative overflow-hidden rounded-3xl bg-[#111] border-2 border-white/8 p-8 sm:p-12 mb-10">
@@ -26,7 +29,7 @@ const Home = () => {
             <h4 className="uppercase text-primary opacity-[0.6] ">Good morning👋</h4>
             <h1 className="sm:text-5xl text-4xl leading-none font-syne font-bold ">
               Welcome back,
-              <br /> <span className="text-primary">Sharat</span>
+              <br /> <span className="text-primary">{LoggedInUser.name.split(" ")[0]}</span>
             </h1>
             <p className="text-white/50 max-w-100">
               Discover today's picks — hand-curated products across electronics, fashion, and more.
@@ -105,6 +108,9 @@ const Home = () => {
           </p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
+          {/* {topCategory?.map((elem) => {
+            <CategoryCards category={elem} />;
+          })} */}
           <CategoryCards />
           <CategoryCards />
           <CategoryCards />
@@ -124,16 +130,18 @@ const Home = () => {
           </div>
           <div className="bg-muted rounded-xl p-6 flex items-end gap-5">
             <div className="img-container w-10 h-10 overflow-hidden rounded-xl">
-            <img
-              src="https://images.unsplash.com/photo-1545127398-14699f92334b?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="product image"
-              className="object-cover object-center"
+              <img
+                src="https://images.unsplash.com/photo-1545127398-14699f92334b?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="product image"
+                className="object-cover object-center"
               />
+            </div>
+            <h4 className="font-syne text-xl flex-1 text-white/70">&#8377;1299</h4>
+            <div className="">
+              <div className="rounded-xl bg-[#c8f400]/50 w-10 h-10 flex items-center justify-center opacity-[0.4]">
+                <ShoppingBag size={20} strokeWidth={3} color="#c8f400" />
               </div>
-              <h4 className="font-syne text-xl flex-1 text-white/70">&#8377;1299</h4>
-              <div className="">
-              <div className="rounded-xl bg-[#c8f400]/50 w-10 h-10 flex items-center justify-center opacity-[0.4]"><ShoppingBag size={20} strokeWidth={3} color="#c8f400" /></div>
-              </div>
+            </div>
           </div>
         </div>
 
@@ -147,47 +155,48 @@ const Home = () => {
               See all <ArrowRight size={14} />
             </p>
           </div>
-          
-             <div className="bg-muted rounded-xl p-6 flex items-end gap-5 ">
+
+          <div className="bg-muted rounded-xl p-6 flex items-end gap-5 ">
             <div className="img-container w-10 h-10 overflow-hidden rounded-xl">
-            <img
-              src="https://images.unsplash.com/photo-1545127398-14699f92334b?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="product image"
-              className="object-cover object-center"
+              <img
+                src="https://images.unsplash.com/photo-1545127398-14699f92334b?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="product image"
+                className="object-cover object-center"
               />
+            </div>
+            <h4 className="font-syne text-xl flex-1 text-white/70">&#8377;1299</h4>
+            <div className="">
+              <div className="rounded-xl bg-[#c8f400]/50 w-10 h-10 flex items-center justify-center opacity-[0.4]">
+                <ShoppingBag size={20} strokeWidth={3} color="#c8f400" />
               </div>
-              <h4 className="font-syne text-xl flex-1 text-white/70">&#8377;1299</h4>
-              <div className="">
-              <div className="rounded-xl bg-[#c8f400]/50 w-10 h-10 flex items-center justify-center opacity-[0.4]"><ShoppingBag size={20} strokeWidth={3} color="#c8f400" /></div>
-              </div>
+            </div>
           </div>
         </div>
       </div>
-       <div className=" grid sm:grid-cols-3 grid-cols-1 gap-5">
-          <div className="bg-[#111]  text-primary border border-white/8 rounded-2xl p-5 flex items-center gap-4">
-            <Zap size={24} />
-            <div>
-              <p className="font-body font-semibold text-white/80 text-sm">Fast Delivery</p>
-              <p className="text-white/30 text-xs">Same-day on select items</p>
-            </div>
-          </div>
-          <div className="bg-[#111] text-primary border border-white/8 rounded-2xl p-5 flex items-center gap-4">
-            <Zap size={24} />
-            <div>
-              <p className="font-body font-semibold text-white/80 text-sm">Fast Delivery</p>
-              <p className="text-white/30 text-xs">Same-day on select items</p>
-            </div>
-          </div>
-          <div className="bg-[#111] text-primary border border-white/8 rounded-2xl p-5 flex items-center gap-4">
-            <Zap size={24} />
-            <div>
-              <p className="font-body font-semibold text-white/80 text-sm">Fast Delivery</p>
-              <p className="text-white/30 text-xs">Same-day on select items</p>
-            </div>
+      <div className=" grid sm:grid-cols-3 grid-cols-1 gap-5">
+        <div className="bg-[#111]  text-primary border border-white/8 rounded-2xl p-5 flex items-center gap-4">
+          <Zap size={24} />
+          <div>
+            <p className="font-body font-semibold text-white/80 text-sm">Fast Delivery</p>
+            <p className="text-white/30 text-xs">Same-day on select items</p>
           </div>
         </div>
+        <div className="bg-[#111] text-primary border border-white/8 rounded-2xl p-5 flex items-center gap-4">
+          <Zap size={24} />
+          <div>
+            <p className="font-body font-semibold text-white/80 text-sm">Fast Delivery</p>
+            <p className="text-white/30 text-xs">Same-day on select items</p>
+          </div>
+        </div>
+        <div className="bg-[#111] text-primary border border-white/8 rounded-2xl p-5 flex items-center gap-4">
+          <Zap size={24} />
+          <div>
+            <p className="font-body font-semibold text-white/80 text-sm">Fast Delivery</p>
+            <p className="text-white/30 text-xs">Same-day on select items</p>
+          </div>
+        </div>
+      </div>
     </div>
-    
   );
 };
 

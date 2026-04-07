@@ -1,14 +1,17 @@
 import { ChevronDown, Cross, Search, X } from "lucide-react";
 import React from "react";
 import ProductCard from '../components/ProductCard'
+import { useLoaderData } from "react-router";
 
 const Products = () => {
+  let products = useLoaderData()
+  
   return (
     <>
       <div className="container h-full max-w-7xl mx-auto lg:px-8 sm:px-6 py-10 antialiased">
         <div className="mb-8">
           <h1 className="font-syne text-4xl font-semibold text-white">All Products</h1>
-          <p className="text-white/50">50 products found</p>
+          <p className="text-white/50">{products.length} products found</p>
         </div>
         <div className="mb-6 border border-white/50 rounded-2xl p-5 text-white text-sm ">
           <div className="top flex flex-col sm:flex-row gap-2 border-b border-white/50 pb-5 mb-5">
@@ -77,6 +80,8 @@ const Products = () => {
         </div>
         
         <div className="showCards grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {products.map(elem => <ProductCard product={elem} key={elem.id} />)}
+          {/* <ProductCard />
           <ProductCard />
           <ProductCard />
           <ProductCard />
@@ -90,8 +95,7 @@ const Products = () => {
           <ProductCard />
           <ProductCard />
           <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard /> */}
         </div>
       </div>
     </>

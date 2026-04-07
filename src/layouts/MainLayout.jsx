@@ -1,10 +1,23 @@
 import { Zap, ShoppingCart, LogOut, Menu } from "lucide-react";
 import React from "react";
 import { NavLink, Outlet } from "react-router";
+import { UseAuth } from "../context/AuthContext";
+import CartSideBar from "../components/CartSideBar";
+import { UseShop} from "../context/ShopContext";
 
 const MainLayout = () => {
+const {logoutFun,LoggedInUser} = UseAuth()
+const {isCartOpen,setIsCartOpen}=  UseShop()
+  
+
+const handleLogout = () =>{
+  logoutFun()
+  // navigate('/Auth')
+  return
+}
   return (
     <>
+      {isCartOpen &&<CartSideBar />}
       <nav className=" sticky top-0  bg-primary text-white z-40 font-dmsans font-light border-b border-white/10">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">
           <div className="left flex items-center gap-2 font-syne font-bold text-xl">
@@ -28,17 +41,17 @@ const MainLayout = () => {
           </div>
           <div className="right flex items-center gap-2 ">
             <div className="profile w-fit h-10 items-center gap-2 border border-white/9 rounded-xl p-2 bg-muted hidden sm:flex">
-              <div className="pic w-6 h-6 p-2 text-dark bg-secondary rounded-[8px] flex items-center justify-center">
-                S
+              <div className="pic w-6 h-6 p-2 text-dark bg-secondary font-syne font-bold rounded-[8px] flex items-center justify-center">
+                {LoggedInUser.name.split('')[0].toUpperCase()}
               </div>
-              <div className="name text-muted">Sharat Katwa</div>
+              <div className="name text-muted">{LoggedInUser.name}</div>
             </div>
-            <div className="cart border border-white/9 h-10 w-10 p-2 rounded-xl flex items-center justify-center">
+            <div onClick={() =>setIsCartOpen(prev =>!prev)} className="cart border border-white/9 h-10 w-10 p-2 rounded-xl flex items-center justify-center">
               {" "}
               <ShoppingCart size={20} strokeWidth={2} />
             </div>
             <div className="logout border border-white/9 h-10 w-10 p-2 rounded-xl flex items-center justify-center">
-              <LogOut size={20} strokeWidth={2} className="text-muted" />
+              <LogOut onClick={handleLogout} size={20} strokeWidth={2} className="text-muted" />
             </div>
             <div className="logout border border-white/9 h-10 w-10 p-2 rounded-xl flex items-center justify-center md:hidden">
               <Menu size={20} strokeWidth={2} className="text-white" />
