@@ -8,14 +8,17 @@ import {
   ShoppingCart,
   Star,
   Truck,
+  Minus,
+  Plus,
 } from "lucide-react";
 import { NavLink, useLoaderData } from "react-router";
 import ProductCard from "../components/ProductCard";
-import {UseShop} from '../context/ShopContext'
+import { UseShop } from "../context/ShopContext";
 
 const ProductDetails = () => {
-const {cartItems}=UseShop()
-const product = useLoaderData()
+  const { cartItems, addCart, minusCart } = UseShop();
+  const product = useLoaderData();
+  const inCart = cartItems.find((elem) => (product?.id === elem.id));
   return (
     <div className="container text-white h-full max-w-7xl mx-auto lg:px-8 sm:px-6 py-10 antialiased">
       <nav className="flex items-center gap-2 text-sm text-white/30 font-body mb-8">
@@ -56,17 +59,36 @@ const product = useLoaderData()
             {" "}
             ${product.price}
           </div>
-          <p className="text-white/50 leading-relaxed text-sm full-body">
-            {product.description}
-          </p>
+          <p className="text-white/50 leading-relaxed text-sm full-body">{product.description}</p>
           <div className="flex gap-3 w-full">
-            <button
-              className="flex-1 text-black font-syne flex items-center justify-center gap-2 py-3.5 rounded-2xl font-heading font-bold text-base transition-all duration-200 active:scale-95
+            {inCart ? (
+              <div className="flex flex-1 text-black font-syne flex items-center justify-center gap-2 p-3.5 rounded-2xl border border-white/10 text-muted">
+                <p className="mr-auto">In Cart:</p>
+                <button
+                  onClick={() => minusCart(inCart)}
+                  className="w-7 h-7 flex items-center justify-center bg-white/8 hover:bg-white/15 rounded-lg transition-colors border border-white/10"
+                >
+                  <Minus size={20} />
+                </button>
+                <span className="text-sm font-bold font-body w-5 text-center">{inCart.cartQuantity}</span>
+                <button
+                  onClick={() => addCart(inCart)}
+                  className="w-7 h-7 flex items-center justify-center bg-white/8 hover:bg-white/15 rounded-lg transition-colors border border-white/10"
+                >
+                  <Plus size={20} />
+                </button>
+               
+              </div>
+            ) : (
+              <button
+                onClick={()=>addCart(product)}
+                className="flex-1 text-black font-syne flex items-center justify-center gap-2 py-3.5 rounded-2xl font-heading font-bold text-base transition-all duration-200 active:scale-95
             bg-secondary hover:bg-[#ddff48]"
-            >
-              <ShoppingCart size={20} />
-              Add to Cart
-            </button>
+              >
+                <ShoppingCart size={20} />
+                Add to Cart
+              </button>
+            )}
             <button className="flex items-center justify-center border border-white/10 text-muted p-3.5 rounded-2xl hover:text-red-400 hover:border-red-500/30 transition-all ">
               <Heart size={20} />
             </button>
@@ -89,19 +111,23 @@ const product = useLoaderData()
             </div>
           </div>
           <div className="flex gap-3 mt-6 ">
-           {product.id>1 && <NavLink
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white/10 hover:bg-white/15 border border-white/10 rounded-2xl transition-all text-white text-sm font-body"
-              to={(`/Products/${product.id-1}`)}
-            >
-              <ChevronLeft size={20} />
-              Previous
-            </NavLink>}
-           {product.id<30 && <NavLink
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-secondary hover:bg-[#ddff48] text-black border border-[#C8F400] rounded-2xl transition-all font-heading font-semibold text-sm"
-              to={`/Products/${product.id+1}`}
-            >
-              Next <ChevronRight size={20} />
-            </NavLink>}
+            {product.id > 1 && (
+              <NavLink
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white/10 hover:bg-white/15 border border-white/10 rounded-2xl transition-all text-white text-sm font-body"
+                to={`/Products/${product.id - 1}`}
+              >
+                <ChevronLeft size={20} />
+                Previous
+              </NavLink>
+            )}
+            {product.id < 30 && (
+              <NavLink
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-secondary hover:bg-[#ddff48] text-black border border-[#C8F400] rounded-2xl transition-all font-heading font-semibold text-sm"
+                to={`/Products/${product.id + 1}`}
+              >
+                Next <ChevronRight size={20} />
+              </NavLink>
+            )}
           </div>
         </div>
       </div>

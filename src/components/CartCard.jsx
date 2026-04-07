@@ -14,14 +14,14 @@ const CartCard = ({ item }) => {
         <p className="text-volt font-heading font-bold text-base mt-1">${item.price * item.cartQuantity}</p>
         <p className="text-white/30 text-xs">${item.price} each</p>
         <div className="flex items-center gap-2 mt-2">
-          <button onClick={minusCart} className="w-7 h-7 flex items-center justify-center bg-white/8 hover:bg-white/15 rounded-lg transition-colors border border-white/10">
+          <button onClick={() =>minusCart(item)} className="w-7 h-7 flex items-center justify-center bg-white/8 hover:bg-white/15 rounded-lg transition-colors border border-white/10">
             <Minus size={20} />
           </button>
           <span className="text-sm font-bold font-body w-5 text-center">{item.cartQuantity}</span>
-          <button onClick={addCart} className="w-7 h-7 flex items-center justify-center bg-white/8 hover:bg-white/15 rounded-lg transition-colors border border-white/10">
+          <button onClick={() =>addCart(item)} className="w-7 h-7 flex items-center justify-center bg-white/8 hover:bg-white/15 rounded-lg transition-colors border border-white/10">
             <Plus size={20} />
           </button>
-          <button onClick={directRemoveCart} className="ml-auto text-red-400/60 hover:text-red-400 transition-colors">
+          <button onClick={() =>directRemoveCart(item)} className="ml-auto text-red-400/60 hover:text-red-400 transition-colors">
             <Trash2 size={20} />
           </button>
         </div>
