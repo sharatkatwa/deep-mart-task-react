@@ -34,6 +34,7 @@ const Login = () => {
     toast.success('Login Success')
     localStorage.setItem("LoggedInUser", JSON.stringify(user));
     setLoggedInUser(user);
+    reset()
     navigate("/");
   };
 
