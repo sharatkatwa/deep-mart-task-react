@@ -4,6 +4,7 @@ import { NavLink, Outlet } from "react-router";
 import { UseAuth } from "../context/AuthContext";
 import CartSideBar from "../components/CartSideBar";
 import { UseShop} from "../context/ShopContext";
+import { ToastContainer } from "react-toastify";
 
 const MainLayout = () => {
 const {logoutFun,LoggedInUser} = UseAuth()
@@ -17,6 +18,7 @@ const handleLogout = () =>{
 }
   return (
     <>
+     <ToastContainer/>
       {isCartOpen &&<CartSideBar />}
       <nav className=" sticky top-0  bg-primary text-white z-40 font-dmsans font-light border-b border-white/10">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-6">

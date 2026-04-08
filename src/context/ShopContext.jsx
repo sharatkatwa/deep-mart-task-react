@@ -29,6 +29,11 @@ export const ShopProvider = ({ children }) => {
     localStorage.setItem("CartItems", JSON.stringify(updatedCart));
     return;
   };
+  
+  const removeAllCart = () =>{
+    localStorage.removeItem('CartItems')
+    setCartItems([])
+  }
 
   const addCart = (product) => {
     const inCart = cartItems.find((item) => product.id === item.id);
@@ -53,7 +58,7 @@ export const ShopProvider = ({ children }) => {
   };
 
   return (
-    <Shop.Provider value={{ cartItems, setCartItems, isCartOpen, setIsCartOpen, addCart, minusCart, directRemoveCart }}>
+    <Shop.Provider value={{ cartItems, setCartItems, isCartOpen, setIsCartOpen, addCart, minusCart, directRemoveCart,removeAllCart }}>
       {children}
     </Shop.Provider>
   );

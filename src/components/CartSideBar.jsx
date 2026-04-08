@@ -1,12 +1,15 @@
-import {  PackageOpen,  ShoppingBag, X } from "lucide-react";
+import { ArrowRight, PackageOpen, ShoppingBag, X } from "lucide-react";
 import { UseShop } from "../context/ShopContext";
 import CartCard from "./CartCard";
+import { toast } from "react-toastify";
 
 const CartSideBar = () => {
   // const navigate = useNavigate()
   const { setIsCartOpen } = UseShop();
-  const { cartItems} = UseShop();
-
+  const { cartItems, removeAllCart } = UseShop();
+  const total = cartItems.reduce((acc, item) => {
+    return Number((acc + item.price * item.cartQuantity).toFixed(2));
+  }, 0);
   return (
     <aside
       className="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#111] border-l border-white/10
@@ -26,28 +29,49 @@ const CartSideBar = () => {
           <X />
         </button>
       </div>
-      {cartItems.length > 0 ? (
-        cartItems.map((elem) => <CartCard key={elem.id} item={elem} />)
-      ) : (
+      <div className="flex flex-col justify-between">
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
-          <div className="h-full flex flex-col items-center justify-center gap-4 text-center py-16">
-            <div className="w-20 h-20 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center">
-              <PackageOpen color="#ffffff20" size={44} />
+          {cartItems.length > 0 ? (
+            cartItems.map((elem) => <CartCard key={elem.id} item={elem} />)
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center gap-4 text-center py-16">
+              <div className="w-20 h-20 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center">
+                <PackageOpen color="#ffffff20" size={44} />
+              </div>
+              <div>
+                <p className="font-heading font-semibold text-white/70 text-lg">Cart is empty</p>
+                <p className="text-white/30 text-sm mt-1">Go shop something cool!</p>
+              </div>
+              <button
+                onClick={() => setIsCartOpen(false)}
+                className="bg-secondary font-syne font-semibold rounded-2xl py-3
+                px-5 mt-2"
+              >
+                Browse Products
+              </button>
             </div>
-            <div>
-              <p className="font-heading font-semibold text-white/70 text-lg">Cart is empty</p>
-              <p className="text-white/30 text-sm mt-1">Go shop something cool!</p>
+          )}
+        </div>
+        {cartItems.length > 0 && (
+          <div className="px-6 py-5 border-t border-white/8 space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-white/50 text-sm font-body">Total</span>
+              <span className="font-syne font-bold text-2xl text-white">${total}</span>
             </div>
             <button
-              onClick={() => setIsCartOpen(false)}
-              className="bg-secondary font-syne font-semibold rounded-2xl py-3
-                px-5 mt-2"
+              onClick={() => {
+                toast.success("Order Placed");
+                setIsCartOpen(false);
+                removeAllCart();
+                return;
+              }}
+              className="w-full bg-secondary rounded-2xl font-syne flex items-center justify-center gap-2 py-3.5 text-base font-heading font-bold"
             >
-              Browse Products
+              Checkout <ArrowRight size={18} />
             </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </aside>
   );
 };
