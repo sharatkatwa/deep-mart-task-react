@@ -61,7 +61,7 @@ const handleLogout = () =>{
           </div>
         </div>
       </nav>
-      <div className="bg-primary min-h-screen font-dmsans">
+      <div className="bg-primary min-h-screen px-2 font-dmsans">
         <Outlet />
 
        
