@@ -17,7 +17,14 @@ const AppRoutes = () => {
       path: "/",
       element: <ProtectedMain />,
       children: [
-        {
+        {   id:'getAllProducts',
+           loader: async () => {
+                let data = await getAllProducts();
+                return data;
+              },
+              hydrateFallbackElement: (
+                <h1 className="text-5xl font-syne text-primary font-bold">Loading products...</h1>
+              ),
           path: "",
           element: (
               <MainLayout />
@@ -32,13 +39,7 @@ const AppRoutes = () => {
               element: <About />,
             },
             {
-              loader: async () => {
-                let data = await getAllProducts();
-                return data;
-              },
-              hydrateFallbackElement: (
-                <h1 className="text-5xl font-syne text-primary font-bold">Loading products...</h1>
-              ),
+             
               path: "Products",
               element: <Products />,
             },

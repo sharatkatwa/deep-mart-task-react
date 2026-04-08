@@ -1,13 +1,41 @@
 import { ArrowRight, Package, ShoppingBag, Star, Tag, TrendingUp, Zap } from "lucide-react";
-import { NavLink, useNavigate } from "react-router";
+import { NavLink, useNavigate, useRouteLoaderData } from "react-router";
 import CategoryCards from "../components/CategoryCards";
 import { UseAuth } from "../context/AuthContext";
+import { UseShop } from "../context/ShopContext";
+import { useMemo } from "react";
 const Home = () => {
+  const products = useRouteLoaderData("getAllProducts");
   const { LoggedInUser } = UseAuth();
+  const { cartItems } = UseShop();
   const navigate = useNavigate();
+
+  const getCategory = useMemo(() => {
+    const obj = products.reduce((acc, item) => {
+      if (!acc[item.category]) acc[item.category] = 1;
+      else acc[item.category]++;
+
+      return acc;
+    }, {});
+
+    return Object.entries(obj).map(([category, count]) => ({ category, count }));
+  }, [products]);
+
+  const topRated = [...products].sort((a, b) => b.rating - a.rating).slice(0, 5);
+  const newArrivals = [...products].sort((a, b) => b.id - a.id).slice(0, 5);
+
+  const totalCart = cartItems.reduce((acc, item) => {
+    return acc + item.cartQuantity;
+  }, 0);
+
+  const totalCartValue = cartItems.reduce((acc, item) => {
+    return Number((acc + item.price * item.cartQuantity).toFixed(2));
+  }, 0);
 
   return (
     <div className="container h-full max-w-7xl mx-auto lg:px-8 sm:px-6 py-10 antialiased">
+      {/* HERO content */}
+
       <div className="relative overflow-hidden rounded-3xl bg-[#111] border-2 border-white/8 p-8 sm:p-12 mb-10">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-16 -right-16 w-80 h-80 bg-volt/8 rounded-full blur-3xl"></div>
@@ -24,7 +52,6 @@ const Home = () => {
             }}
           ></div>
         </div>
-        {/* content */}
         <div className="relative text-white flex sm:flex-row flex-col sm:items-center items-start justify-between gap-10">
           <div className="left space-y-5">
             <h4 className="uppercase text-primary opacity-[0.6] ">Good morning👋</h4>
@@ -50,6 +77,7 @@ const Home = () => {
               </button>
             </div>
           </div>
+
           <div className="right shrink-0 space-y-5">
             <div className="border  border-[#C8F400]/20 bg-[#C8F400]/10 rounded-2xl text-center px-7 py-5 ">
               <h2 className="text-3xl text-primary font-semibold font-syne">20+</h2>
@@ -62,6 +90,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+
       {/* 4 highlights cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-10">
         <div className="border-2 border-white/20 rounded-2xl p-6 flex items-start capitalize gap-5">
@@ -69,7 +98,7 @@ const Home = () => {
             <Package />
           </div>
           <div>
-            <h3 className="text-white text-3xl font-syne">0</h3>
+            <h3 className="text-white text-3xl font-syne">{totalCart}</h3>
             <p className="text-sm text-muted">Cart items </p>
             <p className="text-xs text-white/30">in your bag</p>
           </div>
@@ -79,9 +108,9 @@ const Home = () => {
             <TrendingUp />
           </div>
           <div>
-            <h3 className="text-white text-3xl font-syne">0</h3>
-            <p className="text-sm text-muted">Cart items </p>
-            <p className="text-xs text-white/30">in your bag</p>
+            <h3 className="text-white text-3xl font-syne font-semibold">${totalCartValue}</h3>
+            <p className="text-sm text-muted">Cart Value </p>
+            <p className="text-xs text-white/30">Ready to checkout</p>
           </div>
         </div>
         <div className="border-2 border-white/20 rounded-2xl p-6 flex items-start capitalize gap-5">
@@ -89,9 +118,9 @@ const Home = () => {
             <Star />
           </div>
           <div>
-            <h3 className="text-white text-3xl font-syne">0</h3>
-            <p className="text-sm text-muted">Cart items </p>
-            <p className="text-xs text-white/30">in your bag</p>
+            <h3 className="text-white text-3xl font-syne">10</h3>
+            <p className="text-sm text-muted">Top Products </p>
+            <p className="text-xs text-white/30">Highly rated</p>
           </div>
         </div>
         <div className="border-2 border-white/20 rounded-2xl p-6 flex items-start capitalize gap-5">
@@ -99,9 +128,9 @@ const Home = () => {
             <Tag />
           </div>
           <div>
-            <h3 className="text-white text-3xl font-syne">0</h3>
-            <p className="text-sm text-muted">Cart items </p>
-            <p className="text-xs text-white/30">in your bag</p>
+            <h3 className="text-white text-3xl font-syne">4</h3>
+            <p className="text-sm text-muted">Categories </p>
+            <p className="text-xs text-white/30">To explore</p>
           </div>
         </div>
       </div>
@@ -118,13 +147,9 @@ const Home = () => {
           </p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
-          {/* {topCategory?.map((elem) => {
-            <CategoryCards category={elem} />;
-          })} */}
-          <CategoryCards />
-          <CategoryCards />
-          <CategoryCards />
-          <CategoryCards />
+          {getCategory.map((elem) => (
+            <CategoryCards item={elem} />
+          ))}
         </div>
       </section>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10 text-white">
@@ -141,20 +166,20 @@ const Home = () => {
               View all <ArrowRight size={14} />
             </p>
           </div>
-          <div className="bg-muted rounded-xl p-6 flex items-end gap-5">
-            <div className="img-container w-10 h-10 overflow-hidden rounded-xl">
-              <img
-                src="https://images.unsplash.com/photo-1545127398-14699f92334b?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="product image"
-                className="object-cover object-center"
-              />
-            </div>
-            <h4 className="font-syne text-xl flex-1 text-white/70">&#8377;1299</h4>
-            <div className="">
-              <div className="rounded-xl bg-[#c8f400]/50 w-10 h-10 flex items-center justify-center opacity-[0.4]">
-                <ShoppingBag size={20} strokeWidth={3} color="#c8f400" />
+          <div className="flex flex-col gap-2">
+            {topRated.map((elem) => (
+              <div className="bg-muted rounded-xl p-6 flex items-end gap-5">
+                <div className="img-container w-10 h-10 bg-white/10 overflow-hidden rounded-xl">
+                  <img src={elem.thumbnail} alt="product image" className="object-cover object-center" />
+                </div>
+                <h4 className="font-syne text-xl flex-1 text-white/70">&#8377;{elem.price}</h4>
+                <div className="">
+                  <div className="rounded-xl bg-[#c8f400]/50 w-10 h-10 flex items-center justify-center opacity-[0.4]">
+                    <ShoppingBag size={20} strokeWidth={3} color="#c8f400" />
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -171,21 +196,20 @@ const Home = () => {
               See all <ArrowRight size={14} />
             </p>
           </div>
-
-          <div className="bg-muted rounded-xl p-6 flex items-end gap-5 ">
-            <div className="img-container w-10 h-10 overflow-hidden rounded-xl">
-              <img
-                src="https://images.unsplash.com/photo-1545127398-14699f92334b?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="product image"
-                className="object-cover object-center"
-              />
-            </div>
-            <h4 className="font-syne text-xl flex-1 text-white/70">&#8377;1299</h4>
-            <div className="">
-              <div className="rounded-xl bg-[#c8f400]/50 w-10 h-10 flex items-center justify-center opacity-[0.4]">
-                <ShoppingBag size={20} strokeWidth={3} color="#c8f400" />
+          <div className="flex flex-col gap-2">
+            {newArrivals.map((elem) => (
+              <div className="bg-muted rounded-xl p-6 flex items-end gap-5">
+                <div className="img-container w-10 h-10 bg-white/10 overflow-hidden rounded-xl">
+                  <img src={elem.thumbnail} alt="product image" className="object-cover object-center" />
+                </div>
+                <h4 className="font-syne text-xl flex-1 text-white/70">&#8377;{elem.price}</h4>
+                <div className="">
+                  <div className="rounded-xl bg-[#c8f400]/50 w-10 h-10 flex items-center justify-center opacity-[0.4]">
+                    <ShoppingBag size={20} strokeWidth={3} color="#c8f400" />
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

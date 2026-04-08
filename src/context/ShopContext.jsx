@@ -5,7 +5,6 @@ const Shop = createContext();
 export const ShopProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem("CartItems")) || []);
-  console.log("cartItems:", cartItems);
 
   const minusCart = (product) => {
     if (product.cartQuantity > 1) {

@@ -1,15 +1,15 @@
 import { ChevronDown, Cross, Search, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import { useLoaderData } from "react-router";
+import {  useRouteLoaderData } from "react-router";
 
 const Products = () => {
-  const products = useLoaderData();
+  const products = useRouteLoaderData('getAllProducts');
   const [search, setsearch] = useState("");
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState("default");
   const [debounce, setDebounce] = useState({ search: "", category: "all", sort: "default" });
-  console.log(debounce);
+  // console.log(debounce);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,7 +22,7 @@ const Products = () => {
     let result = products
       .filter((p) => p.title.toLowerCase().includes(debounce.search.toLowerCase()))
       .filter((p) => (debounce.category === "all" ? true : p.category === debounce.category));
-    console.log(result);
+    // console.log(result);
 
     if (debounce.sort === "price-asc") {
       result.sort((a, b) => a.price - b.price);

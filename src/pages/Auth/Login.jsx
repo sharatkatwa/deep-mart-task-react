@@ -25,7 +25,6 @@ const Login = () => {
   const navigate = useNavigate();
   const handleInput = (data) => {
     const user = AllUser.find((elem) => elem.email === data.email && elem.password === data.password);
-    // console.log(user);
     if (!user) {
       console.log("userNotFound");
       toast.error("User Not Found");

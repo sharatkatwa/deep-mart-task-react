@@ -18,11 +18,10 @@ const Signup = () => {
   } = useForm({
     mode:onchange,
   });
-  // console.log("errors: ",errors)
   const navigate = useNavigate()
   const handleInput = (data) => {
     const users = [...AllUser, data]
-    // console.log(users)
+    
     localStorage.setItem("AllUsers",JSON.stringify(users))
     localStorage.setItem('LoggedInUser',JSON.stringify(data))
     setAllUser(users)
