@@ -11,7 +11,7 @@ const CartCard = ({ item }) => {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm text-white/80 font-body clamp-2 leading-snug">{item.title}</p>
-        <p className="text-volt font-heading font-bold text-base mt-1">${item.price * item.cartQuantity}</p>
+        <p className="text-volt font-heading font-bold text-base mt-1">${Number(item.price * item.cartQuantity).toFixed(2)}</p>
         <p className="text-white/30 text-xs">${item.price} each</p>
         <div className="flex items-center gap-2 mt-2">
           <button onClick={() =>minusCart(item)} className="w-7 h-7 flex items-center justify-center bg-white/8 hover:bg-white/15 rounded-lg transition-colors border border-white/10">

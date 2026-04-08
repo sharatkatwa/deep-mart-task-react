@@ -1,9 +1,10 @@
 import { ArrowRight, Package, ShoppingBag, Star, Tag, TrendingUp, Zap } from "lucide-react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import CategoryCards from "../components/CategoryCards";
 import { UseAuth } from "../context/AuthContext";
 const Home = () => {
   const { LoggedInUser } = UseAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="container h-full max-w-7xl mx-auto lg:px-8 sm:px-6 py-10 antialiased">
@@ -35,10 +36,16 @@ const Home = () => {
               Discover today's picks — hand-curated products across electronics, fashion, and more.
             </p>
             <div className="flex gap-5 text-nowrap">
-              <button className="hover:bg-[#ddff48]/90 transition-all bg-secondary rounded-xl flex items-center gap-2 justify-center px-5 py-3 text-black font-medium">
+              <button
+                onClick={() => navigate("/Products")}
+                className="hover:bg-[#ddff48]/90 transition-all bg-secondary rounded-xl flex items-center gap-2 justify-center px-5 py-3 text-black font-medium"
+              >
                 <span>Shop Now</span> <ArrowRight size={15} />
               </button>
-              <button className="border hover:border-white hover:text-white transition-all border-white/9 rounded-xl  flex items-center gap-2 justify-center px-5 py-3  text-white/50 font-normal">
+              <button
+                onClick={() => navigate("/Products")}
+                className="border hover:border-white hover:text-white transition-all border-white/9 rounded-xl  flex items-center gap-2 justify-center px-5 py-3  text-white/50 font-normal"
+              >
                 <span>View all products</span>
               </button>
             </div>
@@ -103,7 +110,10 @@ const Home = () => {
       <section className="mb-10 text-white">
         <div className="flex items-center justify-between mb-5">
           <h2 className="font-syne text-2xl font-semibold">Shop By Category</h2>
-          <p className=" flex items-center gap-2 font-thin text-primary cursor-pointer">
+          <p
+            onClick={() => navigate("/Products")}
+            className=" flex items-center gap-2 font-thin text-primary cursor-pointer"
+          >
             View all <ArrowRight size={14} />
           </p>
         </div>
@@ -124,7 +134,10 @@ const Home = () => {
               <Star fill="yellow" size={20} stroke="3" />
               <span>Top Rated</span>
             </h2>
-            <p className=" flex items-center gap-2 font-thin text-primary cursor-pointer">
+            <p
+              onClick={() => navigate("/Products")}
+              className=" flex items-center gap-2 font-thin text-primary cursor-pointer"
+            >
               View all <ArrowRight size={14} />
             </p>
           </div>
@@ -151,7 +164,10 @@ const Home = () => {
               <Zap fill="yellow" size={20} stroke="3" />
               <span>New Arrivals</span>
             </h2>
-            <p className=" flex items-center gap-2 font-thin text-primary cursor-pointer">
+            <p
+              onClick={() => navigate("/Products")}
+              className=" flex items-center gap-2 font-thin text-primary cursor-pointer"
+            >
               See all <ArrowRight size={14} />
             </p>
           </div>
